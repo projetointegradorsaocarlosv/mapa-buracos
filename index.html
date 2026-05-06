@@ -29,12 +29,12 @@
     }).addTo(map);
 
     // Buscar dados do ThingSpeak (latitude = Field2, longitude = Field3, categoria = Field4)
-    fetch(`https://api.thingspeak.com/channels/${channelID}/feeds.json?api_key=${readAPIKey}&results=60`)
+    fetch(`https://api.thingspeak.com/channels/${channelID}/feeds.json?api_key=${readAPIKey}&results=8000`)
       .then(response => response.json())
       .then(data => {
         data.feeds.forEach(feed => {
-          const lat = parseFloat(feed.field2);
-          const lon = parseFloat(feed.field3);
+          const lat = Number((feed.field2 || "").trim());
+          const lon = Number((feed.field3 || "").trim());
           const categoria = feed.field4;
 
           if (!isNaN(lat) && !isNaN(lon)) {
@@ -42,9 +42,10 @@
             if (categoria == "1") cor = "blue";     // Pequeno
             else if (categoria == "2") cor = "orange"; // Médio
             else if (categoria == "3") cor = "purple"; // Grande
+            else cor = "gray"; // fallback
 
             L.circleMarker([lat, lon], {
-              radius: 8,
+              radius: 6,
               color: cor,
               fillOpacity: 0.7
             }).addTo(map)
@@ -56,35 +57,3 @@
 </body>
 </html>
 
-
-        
-
-        
-           
-        
-    
-
-        
-        
-
-        
-        
-    
-  
-
-        
-
-        
-    
-  
-            
-          
-     
-
-        
-    
-    
-                marker_305bdcc6595c6eea05ab81a0c06a56f2.setIcon(icon_669fc3918e24040ab3f3330699bab16a);
-            
-</script>
-</html>
