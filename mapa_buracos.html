@@ -36,15 +36,19 @@
       header: true,
       complete: function(results) {
         results.data.forEach(row => {
-          const lat = Number((row.field2 || "").trim());
-          const lon = Number((row.field3 || "").trim());
-          const categoria = row.field4;
+          // Limpeza extra: remove espaços e caracteres invisíveis
+          const latRaw = (row.field2 || "").trim().replace(/[^\d\.\-]/g, "");
+          const lonRaw = (row.field3 || "").trim().replace(/[^\d\.\-]/g, "");
+          const categoria = (row.field4 || "").trim();
+
+          const lat = Number(latRaw);
+          const lon = Number(lonRaw);
 
           if (!isNaN(lat) && !isNaN(lon)) {
             let cor;
-            if (categoria == "1") cor = "blue";     // Pequeno
-            else if (categoria == "2") cor = "orange"; // Médio
-            else if (categoria == "3") cor = "purple"; // Grande
+            if (categoria === "1") cor = "blue";     // Pequeno
+            else if (categoria === "2") cor = "orange"; // Médio
+            else if (categoria === "3") cor = "purple"; // Grande
             else cor = "gray"; // fallback
 
             L.circleMarker([lat, lon], {
@@ -53,6 +57,9 @@
               fillOpacity: 0.7
             }).addTo(map)
               .bindPopup(`Buraco categoria ${categoria}<br>Lat: ${lat}<br>Lon: ${lon}`);
+          } else {
+            // Debug: mostra no console quais linhas foram ignoradas
+            console.log("Ignorado:", row.field2, row.field3);
           }
         });
       }
@@ -60,19 +67,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-       
-
- 
