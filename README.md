@@ -1,4 +1,4 @@
-# Projeto de Monitoramento de Buracos - São Carlos-SP
+# Projeto Integrador Univesp V-Falhas no Pavimento - São Carlos-SP
 
 Este repositório reúne todos os programas desenvolvidos para o trabalho de monitoramento de buracos em vias urbanas, utilizando sensores de aceleração, GPS e visualização em mapas interativos.
 
